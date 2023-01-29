@@ -14,6 +14,7 @@ export interface PageText {
 export interface FoundryItem {
   name: string;
   type: string;
+  img: string;
   data: unknown;
   // pageNum: number;
 }
@@ -31,4 +32,13 @@ export enum PrimaryComponents {
   FORTIFYING = 'willow bark',
   RESTORATIVE = 'flesh wort',
   SPECIAL = '-',
+}
+
+export enum Reagents {
+  EARTH = 'earth',
+  FIRE = 'fire',
+  WIND = 'wind',
+  WATER = 'water',
+  ICE = 'ice',
+  LIGHTNING = 'lightning',
 }

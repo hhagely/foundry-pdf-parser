@@ -1,7 +1,5 @@
 node_modules
 dist
+generatedFiles
 extracted-pdf-text.json
-herbalism-test-1.json
-pdfjs-dist-test-2.json
-pdfjs-dist-test.json
-upload-test.json
+*test*.json
