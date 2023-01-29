@@ -24,23 +24,12 @@ export default function extractAlchemyItems(
   const alchemyItems: FoundryItem[] = [];
 
   const alchemicalBaseIndexes = buildIndicesMap(parsedPdf, 'alchemical base:');
-  const specialInstructionItems = buildIndicesMap(
-    parsedPdf,
-    'special instructions:'
-  );
 
-  // create a seaparate set of indexes for items that have 'special requirements' so that
-  // we can build those descriptions differently.
   // handle this manually, we shouldn't start on this page.
   alchemicalBaseIndexes.delete(19);
-  specialInstructionItems.delete(19);
 
   alchemicalBaseIndexes.forEach(
     (textIndexes: number[], indexOnPage: number) => {
-      //todo: come back to this after the non-special items are looking ok.
-      // if (specialInstructionItems.has(indexOnPage)) {
-      //   // process
-      // }
       textIndexes.forEach((textIndex: number, index: number) => {
         const { texts } = parsedPdf.pages[indexOnPage];
         const itemNameIndex = 2;
@@ -59,9 +48,20 @@ export default function extractAlchemyItems(
           .map((reagent: string) => getReagentString(Number(reagent)))
           .join(' + ');
 
-        let description = `<p><em>${alchemyInfo}</em></p><p><strong>Alchemical base: ${alchemicalBase}</strong></p><p><strong>Reagents: ${reagents}</strong></p>`;
-        // debugger;
+        let description = `<p><em>${alchemyInfo}</em></p><p><strong>Alchemical base: ${alchemicalBase}</strong></p><p><strong>Reagents: ${reagents}</strong></p><p>`;
         let currentDescriptionIndex = textIndex + 4;
+
+        if (
+          texts[currentDescriptionIndex].text.match(/special requirements:/i)
+        ) {
+          description += `<p><strong>Special Requirements: ${
+            texts[currentDescriptionIndex + 1].text
+          }</strong></p><p>`;
+          // we need to move the index 2 spots because of the text 'special requirements' and then the text
+          // itself in the next index
+          currentDescriptionIndex += 2;
+        }
+
         while (texts[currentDescriptionIndex].hasEOL) {
           description += `${texts[currentDescriptionIndex].text} `;
           currentDescriptionIndex++;

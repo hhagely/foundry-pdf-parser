@@ -28,13 +28,13 @@ const processPdfData = () => {
 
   const alchemyItems = extractAlchemyItems(pdfData);
 
-  // alchemyItems.forEach((alchemyItem: FoundryItem) => {
-  //   writeFileSync(
-  //     `./generatedFiles/alchemy/${alchemyItem.name}.json`,
-  //     JSON.stringify(alchemyItem)
-  //   );
-  // });
-  writeFileSync('./alchemy-test.json', JSON.stringify(alchemyItems));
+  alchemyItems.forEach((alchemyItem: FoundryItem) => {
+    writeFileSync(
+      `./generatedFiles/alchemy/${alchemyItem.name}.json`,
+      JSON.stringify(alchemyItem)
+    );
+  });
+  // writeFileSync('./alchemy-test.json', JSON.stringify(alchemyItems));
 };
 
 const processPdfFile = async () => {
@@ -57,11 +57,6 @@ const processPdfFile = async () => {
         ),
     });
   }
-
-  /*
-  todo: possibly remove all 'whitespace' lines from json file. Then design some algorithm to
-  todo: distill the information down that we need. Just start with herbalism for now.
-  */
 
   const herbalismItems = extractHerbalismItems(jsonData);
 

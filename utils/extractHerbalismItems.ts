@@ -5,7 +5,6 @@ import buildIndicesMap from '../utils/buildIndexesMap';
 export default function extractHerbalismItems(parsedPdf: ParsedPdf) {
   const herbalismItems: FoundryItem[] = [];
 
-  // ? 1. Get a collection of the indexes of each text object containing 'secondary component' and the page it appears on
   const secondaryComponentIndexes = buildIndicesMap(
     parsedPdf,
     'secondary component:'
